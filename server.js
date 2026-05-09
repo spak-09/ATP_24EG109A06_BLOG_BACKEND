@@ -20,11 +20,22 @@ dns.setServers(['8.8.8.8', '1.1.1.1'])
 const app=exp()
 
 //enable cors
-const frontendOrigin = process.env.FRONTEND_URL || 'https://atp-24eg109a06-blog-frontend.vercel.app'
-const allowedOrigins = [frontendOrigin, 'http://localhost:5173', 'http://localhost:5175']
+const frontendOrigin = process.env.FRONTEND_URL || 'https://atp-24-eg-109-a06-blog-frontend.vercel.app'
+const allowedOrigins = [
+  frontendOrigin,
+  'https://atp-24eg109a06-blog-frontend.vercel.app',
+  'https://atp-24-eg-109-a06-blog-frontend.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:5175',
+].filter(Boolean)
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true)
+    }
+    return callback(new Error('CORS policy: origin not allowed'), false)
+  },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
 }))
