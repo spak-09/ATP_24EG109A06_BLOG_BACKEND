@@ -34,10 +34,12 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true)
     }
+    console.warn('Blocked CORS origin:', origin)
     return callback(new Error('CORS policy: origin not allowed'), false)
   },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
 }))
 
 //add cookieParser
