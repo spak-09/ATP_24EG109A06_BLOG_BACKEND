@@ -20,10 +20,13 @@ dns.setServers(['8.8.8.8', '1.1.1.1'])
 const app=exp()
 
 //enable cors
+const frontendOrigin = process.env.FRONTEND_URL || 'https://atp-24eg109a06-blog-frontend.vercel.app'
+const allowedOrigins = [frontendOrigin, 'http://localhost:5173', 'http://localhost:5175']
+
 app.use(cors({
-    origin:['http://localhost:5173','http://localhost:5175'],
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    credentials: true
+  credentials: true,
 }))
 
 //add cookieParser
